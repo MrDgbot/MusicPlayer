@@ -7,50 +7,65 @@
               android:gravity="center_vertical">
 
     <ImageView
-            android:id="@+id/musicCover"
+            android:id="@+id/music_cover"
             android:layout_width="60dp"
             android:layout_height="60dp"
-    />
+            android:contentDescription="cover"/>
 
     <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:paddingStart="16dp">
+            android:paddingStart="8dp">
 
         <TextView
-                android:id="@+id/musicTitle"
+                android:id="@+id/title_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Title"
                 android:textStyle="bold"/>
 
         <TextView
-                android:id="@+id/musicArtist"
+                android:id="@+id/artist_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Artist"/>
 
         <TextView
-                android:id="@+id/musicYear"
+                android:id="@+id/year_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Year"/>
 
     </LinearLayout>
 
-    <Button
-            android:id="@+id/downloadButton"
+    <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="下载"/>
+            android:clipToPadding="true"
+            android:clipChildren="true"
+            android:orientation="vertical">
 
-    <Button
-            android:id="@+id/playButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="播放"
-            android:layout_marginStart="8dp"/>
+        <android.widget.Button
+                android:id="@+id/downloadButton"
+                android:layout_width="wrap_content"
+                android:layout_height="26dp"
+                android:background="@drawable/bg_button"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_marginBottom="8dp"
+                android:textAllCaps="false"
+                android:text="@string/download"/>
+
+        <android.widget.Button
+                android:id="@+id/playButton"
+                android:layout_width="wrap_content"
+                android:layout_height="26dp"
+                android:background="@drawable/bg_button"
+                android:textAllCaps="false"
+                style="?android:attr/borderlessButtonStyle"
+                android:text="@string/play"/>
+
+    </LinearLayout>
 
 </LinearLayout>
