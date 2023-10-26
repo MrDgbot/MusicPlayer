@@ -2,9 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools">
     <!--网络权限-->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
+            android:name="MainApplication"
             android:allowBackup="true"
             android:dataExtractionRules="@xml/data_extraction_rules"
             android:fullBackupContent="@xml/backup_rules"
@@ -15,7 +17,7 @@
             android:theme="@style/Theme.MusicPlayer"
             tools:targetApi="31">
         <activity
-                android:name="MainActivity"
+                android:name=".ui.home.MusicListActivity"
                 android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -24,9 +26,16 @@
             </intent-filter>
         </activity>
         <activity
-                android:name="MusicListActivity"
-                android:exported="true">
-        </activity>
+                android:name=".ui.detail.PlayerDetail"/>
+
+        <!--适配华为（huawei）刘海屏-->
+        <meta-data
+                android:name="android.notch_support"
+                android:value="true"/>
+        <!--适配小米（xiaomi）刘海屏-->
+        <meta-data
+                android:name="notch.config"
+                android:value="portrait|landscape" />
     </application>
 
 </manifest>

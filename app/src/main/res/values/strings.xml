@@ -2,5 +2,8 @@
     <string name="app_name">MusicPlayer</string>
     <string name="download">Download</string>
     <string name="play">Play</string>
+    <string name="cancel">Cancel</string>
     <string name="music_player">Music Player</string>
+    <string name="no_music">下拉刷新\n</string>
+    <string name="refresh_tips">下拉刷新</string>
 </resources>
