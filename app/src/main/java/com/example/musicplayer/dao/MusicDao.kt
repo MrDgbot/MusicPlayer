@@ -15,8 +15,6 @@ interface MusicDao {
     @Insert
     suspend fun insertAll(musics: List<Music>)
 
-    @Query("SELECT localDownloadSize FROM Music WHERE url = :url")
-    suspend fun getDownloadSizeByUrl(url: String): Long
 
     @Update
     suspend fun update(music: Music)
@@ -29,7 +27,6 @@ interface MusicDao {
 
     @Query("SELECT * FROM Music WHERE id IN (:ids)")
     suspend fun getMusicsByIds(ids: List<Int>): List<Music>
-
 
     @Query("SELECT * FROM Music")
     suspend fun getAllMusics(): List<Music>
