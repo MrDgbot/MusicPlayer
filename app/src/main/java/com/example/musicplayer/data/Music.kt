@@ -15,10 +15,6 @@ data class Music(
     val cover: String,
     var downloading: Boolean = false,
     var downloaded: Boolean = false,
-    // 本地缓存大小
-    var localDownloadSize: Long = 0,
-    // 文件总大小
-    var downloadTotalSize: Long = 0,
     // 播放状态
     var playing: Boolean = false,
     // 当前播放位置
@@ -34,8 +30,6 @@ data class Music(
     ) {
         downloading = parcel.readByte() != 0.toByte()
         downloaded = parcel.readByte() != 0.toByte()
-        localDownloadSize = parcel.readLong()
-        downloadTotalSize = parcel.readLong()
         playing = parcel.readByte() != 0.toByte()
         currentPosition = parcel.readInt()
     }
@@ -49,8 +43,6 @@ data class Music(
         parcel.writeString(cover)
         parcel.writeByte(if (downloading) 1 else 0)
         parcel.writeByte(if (downloaded) 1 else 0)
-        parcel.writeLong(localDownloadSize)
-        parcel.writeLong(downloadTotalSize)
         parcel.writeByte(if (playing) 1 else 0)
         parcel.writeInt(currentPosition)
     }
