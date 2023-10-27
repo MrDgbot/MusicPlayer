@@ -4,13 +4,102 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:context=".ui.detail.PlayerDetail">
+    <include
+            android:id="@+id/appbar"
+            layout="@layout/normal_toolbar"/>
 
     <ImageView
-            android:id="@+id/album_art"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_centerInParent="true"/>
+            android:id="@+id/gradient_image_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"/>
+    <!--歌曲名-->
+    <TextView
+            android:id="@+id/song_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_above="@id/artist_name"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"/>
+    <!--作者-->
+    <TextView
+            android:id="@+id/artist_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_above="@id/music_button"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="30dp"/>
+    <include
+            android:id="@+id/player_box"
+            layout="@layout/player_vinyl_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="20dp"/>
 
+    <ImageButton
+            android:id="@+id/previous_button"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/previous"
+            android:layout_above="@+id/seek_bar"
+            android:layout_toStartOf="@+id/music_button"
+            android:layout_marginEnd="10dp"
+            android:layout_toLeftOf="@+id/music_button"
+            android:layout_marginRight="10dp"/>
+
+    <ImageButton
+            android:id="@+id/music_button"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/circle_bg"
+            android:src="@drawable/pause"
+            android:layout_above="@id/seek_bar"
+            android:layout_centerHorizontal="true"/>
+
+    <!-- 下一首按钮 -->
+    <ImageButton
+            android:id="@+id/next_button"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/next"
+            android:layout_above="@+id/seek_bar"
+            android:layout_toEndOf="@+id/music_button"
+            android:layout_marginStart="10dp"
+            android:layout_toRightOf="@+id/music_button"
+            android:layout_marginLeft="10dp"/>
+
+    <TextView
+            android:id="@+id/start_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/zero_time"
+            android:layout_above="@id/seek_bar"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"/>
+
+    <TextView
+            android:id="@+id/end_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/zero_time"
+            android:layout_above="@id/seek_bar"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"/>
 
     <SeekBar
             android:id="@+id/seek_bar"
@@ -23,13 +112,4 @@
             android:layout_marginRight="10dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="120dp"/>
-    <ImageButton
-            android:id="@+id/play_pause_button"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_above="@id/seek_bar"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/circle_bg"
-            android:src="@drawable/pause"/>
-
 </RelativeLayout>

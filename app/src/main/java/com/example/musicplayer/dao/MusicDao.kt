@@ -30,4 +30,7 @@ interface MusicDao {
 
     @Query("SELECT * FROM Music")
     suspend fun getAllMusics(): List<Music>
+
+    @Query("SELECT * FROM Music WHERE downloaded = 1")
+    suspend fun getDownloadedMusics(): List<Music>
 }

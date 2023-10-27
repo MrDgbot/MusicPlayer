@@ -2,6 +2,8 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'com.google.devtools.ksp'
+    id 'kotlin-parcelize'
+    id 'kotlin-kapt'
 }
 
 
@@ -11,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.musicplayer"
-        minSdk 16
+        minSdk 24
         targetSdk 33
         versionCode 1
         versionName "1.0"
@@ -31,32 +33,39 @@ android {
     }
 
     buildFeatures {
-        dataBinding = true
+        viewBinding true
+        dataBinding true
     }
 }
 
 dependencies {
-    // swipeRefreshLayout
+    // swipeRefreshLayout 下拉刷新
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
-    // Retrofit
+    // Retrofit 网络请求
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
-    // Glide
+    // Glide 图片加载
     implementation 'com.github.bumptech.glide:glide:4.14.2'
     ksp 'com.github.bumptech.glide:compiler:4.14.2'
+
+
+    // immersionbar 沉浸状态栏
+    implementation 'com.geyifeng.immersionbar:immersionbar:3.2.2'
+
+    // Room 数据库
+    implementation 'androidx.room:room-runtime:2.4.0'
+    implementation "androidx.room:room-ktx:2.4.0"
+    ksp 'androidx.room:room-compiler:2.4.0'
+    // okio 用于文件处理
+    implementation 'com.squareup.okio:okio:3.0.0-alpha.9'
+
+    // palette 用于提取图片主色调
+    implementation 'androidx.palette:palette:1.0.0'
+
     // ViewModel
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2'
     implementation 'androidx.databinding:databinding-runtime:8.1.2'
     implementation 'androidx.activity:activity-ktx:1.7.0'
-
-    // 沉浸状态栏
-    implementation 'com.geyifeng.immersionbar:immersionbar:3.2.2'
-    // Room
-    implementation 'androidx.room:room-runtime:2.4.0'
-    implementation "androidx.room:room-ktx:2.4.0"
-    ksp 'androidx.room:room-compiler:2.4.0'
-    // okio
-    implementation 'com.squareup.okio:okio:3.0.0-alpha.9'
 
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0'

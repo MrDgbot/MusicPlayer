@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <ImageView
+            android:id="@+id/player_bg"
+            android:layout_width="wrap_content"
+            android:layout_height="450dp"
+            android:paddingTop="40dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:src="@drawable/player_play_bg"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="20dp"/>
+
+
+    <FrameLayout
+            android:id="@+id/album_art_container"
+            android:layout_width="240dp"
+            android:layout_height="260dp"
+            android:layout_centerInParent="true"
+            android:layout_alignTop="@+id/player_bg"
+            android:layout_alignBottom="@+id/player_bg"
+            android:layout_marginTop="30dp">
+
+
+        <ImageView
+                android:id="@+id/album_shape"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/cover_bg"/>
+
+        <ImageView
+                android:id="@+id/album_art"
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:layout_gravity="center"/>
+
+
+    </FrameLayout>
+
+
+    <com.example.musicplayer.ui.widget.RotatableImageView
+            android:id="@+id/player_pointer"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/player_pointer"
+            android:layout_marginTop="70dp"
+            android:layout_marginBottom="70dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/player_bg"
+            android:layout_alignBottom="@+id/player_bg"/>
+
+</RelativeLayout>

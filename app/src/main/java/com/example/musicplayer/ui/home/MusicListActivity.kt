@@ -41,6 +41,7 @@ class MusicListActivity : BaseActivity() {
         // 设置下拉刷新逻辑
         binding.swipeRefreshLayout.setOnRefreshListener {
             viewModel.loadTracks(musicDao)
+            binding.swipeRefreshLayout.isEnabled = false
         }
 
         // 监听音乐列表
@@ -57,7 +58,10 @@ class MusicListActivity : BaseActivity() {
             binding.swipeRefreshLayout.isEnabled = !loading
 
             binding.swipeRefreshLayout.isRefreshing = loading
-            if (!loading) {
+            if (loading) {
+                binding.refreshTextView.text = "加载中..."
+            } else {
+                binding.refreshTextView.text = "下拉刷新"
                 Toast.makeText(this, "刷新完成", Toast.LENGTH_SHORT).show()
             }
         }

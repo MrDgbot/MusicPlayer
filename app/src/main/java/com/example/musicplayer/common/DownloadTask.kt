@@ -76,37 +76,54 @@ class DownloadTask(
                 file = getFile()
             }
             localDownloadSize = file.length()
-            val response = apiService.downloadFileWithDynamicUrlAsync(music.url, getRangeHeader())
+            try {
 
-            if (response.isSuccessful) {
-                val contentRange = response.headers()["Content-Range"]
-                if (contentRange != null) {
-                    val size = contentRange.split("/").lastOrNull()?.toLongOrNull()
-                    if (size != null) {
-                        totalDownloadSize = size
-                    } else {
-                        handleErrorResponse(response)
-                        return@launch
+                val response = apiService.downloadFileWithDynamicUrlAsync(music.url, getRangeHeader())
+
+                if (response.isSuccessful) {
+                    val contentRange = response.headers()["Content-Range"]
+                    if (contentRange != null) {
+                        val size = contentRange.split("/").lastOrNull()?.toLongOrNull()
+                        if (size != null) {
+                            totalDownloadSize = size
+                        } else {
+                            handleErrorResponse(response)
+                            return@launch
+                        }
                     }
+                    handleSuccessfulResponse(response.body(), file)
+                } else {
+                    handleErrorResponse(response)
                 }
-                handleSuccessfulResponse(response.body(), file)
-            } else {
-                handleErrorResponse(response)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                music.downloading = false
+                onError("下载失败: ${e.message}")
+                deleteFile()
+            } finally {
+                music.downloading = false
+                withContext(Dispatchers.Main) {
+                    musicDao.update(music)
+                }
             }
-
-            music.downloading = false
         }
     }
 
     suspend fun cancel() {
-//        Log.d(TAG, "cancel: $music")
         withContext(Dispatchers.Main) {
             music.downloading = false
             music.downloaded = false
 
             musicDao.update(music)
         }
-        currentCall?.cancel()
+        try {
+            currentCall?.cancel()
+        } catch (e: Exception) {
+            deleteFile()
+            e.printStackTrace()
+            music.downloading = false
+            onError("取消下载失败: ${e.message}")
+        }
     }
 
     private fun deleteFile() {
@@ -127,10 +144,6 @@ class DownloadTask(
                     onError("下载失败，文件为空")
                     return
                 }
-
-//                Log.d(TAG, "body数据: ${body.contentLength()}")
-//                Log.d(TAG, "handleSuccessfulResponse: ${music.id}|${file.length()}|${totalDownloadSize}")
-
                 saveFile(body, file)
 
             } else {
@@ -170,7 +183,7 @@ class DownloadTask(
 
     private suspend fun copyResponseToFile(responseBody: ResponseBody, file: File): Long {
         var totalBytesDownloaded = localDownloadSize
-        var bytesRead: Long = 0
+        var bytesRead: Long
 
         val isAppending = localDownloadSize > 0
         val sink = if (isAppending) file.sink(true).buffer() else file.sink().buffer()

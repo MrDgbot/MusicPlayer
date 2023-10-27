@@ -3,7 +3,6 @@ package com.example.musicplayer.common
 import android.content.Context
 import android.media.MediaPlayer
 import android.net.Uri
-import android.util.Log
 import com.example.musicplayer.dao.MusicDao
 import com.example.musicplayer.data.Music
 import kotlinx.coroutines.CoroutineScope
@@ -30,7 +29,7 @@ class MusicPlayerManager private constructor(private val coroutineScope: Corouti
     private lateinit var musicDao: MusicDao
 
 
-    fun startMusic(context: Context, music: Music) {
+    fun startMusic(context: Context, music: Music, onError: (String) -> Unit) {
         musicDao = AppDatabase.getInstance(context).musicDao()
 
         if (mediaPlayer != null) {
@@ -41,11 +40,7 @@ class MusicPlayerManager private constructor(private val coroutineScope: Corouti
 
         val downloadDir = File(context.externalCacheDir, "music")
         val file = File(downloadDir, "${music.id}_${music.title}.mp3")
-//        Log.d("PlayerDetail", "onCreate: ${music?.localDownloadSize}")
-//        Log.d("PlayerDetail", "onCreate: ${music?.downloadTotalSize}")
-        // 获取文件大小
-        val fileSize = file.length()
-//        Log.d("PlayerDetail", "onCreate: $fileSize")
+
         mediaPlayer?.setDataSource(context, Uri.fromFile(file))
         mediaPlayer?.prepare()
 
@@ -83,7 +78,7 @@ class MusicPlayerManager private constructor(private val coroutineScope: Corouti
             currentMusic?.playing = true // 更新播放状态
         }
         coroutineScope.launch {
-            updateMusic(currentMusic!!)
+            currentMusic?.let { updateMusic(it) }
         }
     }
 
@@ -117,5 +112,10 @@ class MusicPlayerManager private constructor(private val coroutineScope: Corouti
         withContext(Dispatchers.IO) {
             musicDao.update(music)
         }
+    }
+
+    /// 播放完毕
+    fun setOnCompletionListener(listener: MediaPlayer.OnCompletionListener) {
+        mediaPlayer?.setOnCompletionListener(listener)
     }
 }

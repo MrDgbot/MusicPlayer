@@ -2,6 +2,8 @@ package com.example.musicplayer.ui.home
 
 import android.content.Context
 import android.content.Intent
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +18,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.musicplayer.R
 import com.example.musicplayer.common.AppDatabase
 import com.example.musicplayer.common.DownloadManager
+import com.example.musicplayer.common.FileHelper
 import com.example.musicplayer.dao.MusicDao
 import com.example.musicplayer.data.Music
 import com.example.musicplayer.ui.detail.PlayerDetail
@@ -75,9 +78,19 @@ class MusicListAdapter : ListAdapter<Music, MusicListAdapter.ViewHolder>(MusicDi
          */
         private fun onDownloadButtonClick() {
             if (track.downloaded) {
-                // 跳转到播放页面
-                startPlayerDetailActivity(itemView.context, track)
-                return
+                // 检查文件是否存在
+                val file = FileHelper.getInstance(itemView.context).getDownloadFile(track)
+
+                if (file.exists()) {
+                    track.downloaded = true
+                    // 跳转到播放页面
+                    startPlayerDetailActivity(itemView.context, track)
+                    return
+                } else {
+                    track.downloaded = false
+                    // 提示用户文件不存在
+                    showToast("文件不存在，请先下载")
+                }
             }
             if (track.downloading) {
                 cancelDownload()
@@ -99,6 +112,13 @@ class MusicListAdapter : ListAdapter<Music, MusicListAdapter.ViewHolder>(MusicDi
             context.startActivity(intent)
         }
 
+        private fun showToast(msg: String) {
+            val handler = Handler(Looper.getMainLooper())
+            handler.post {
+                Toast.makeText(itemView.context, msg, Toast.LENGTH_SHORT).show()
+            }
+        }
+
         /**
          * 开始下载。
          * 此方法用于开始下载操作。
@@ -111,7 +131,7 @@ class MusicListAdapter : ListAdapter<Music, MusicListAdapter.ViewHolder>(MusicDi
             DownloadManager.startDownload(itemView.context, track,
                 onProgress = { progressBar.progress = it },
                 onError = {
-                    Toast.makeText(itemView.context, it, Toast.LENGTH_SHORT).show()
+                    showToast(it)
                     updateDownloadButtonText()
                 },
                 onSuccess = {
@@ -198,23 +218,9 @@ class MusicListAdapter : ListAdapter<Music, MusicListAdapter.ViewHolder>(MusicDi
 
         /**
          * 更新进度的方法。
-         * 如果正在下载音乐，则计算并显示下载进度。
          * 如果音乐已下载完成，则隐藏进度条。
          */
         private fun updateProgress() {
-            if (track.downloading) {
-                CoroutineScope(Dispatchers.IO).launch {
-                    val downloadSize = track.localDownloadSize
-                    val downloadTotalSize = track.downloadTotalSize
-                    if (downloadSize == 0L) {
-                        return@launch
-                    }
-                    val progress = (downloadSize * 100 / downloadTotalSize).toInt()
-                    withContext(Dispatchers.Main) {
-                        progressBar.progress = progress
-                    }
-                }
-            }
             if (track.downloaded) {
                 progressBar.visibility = View.INVISIBLE
             }

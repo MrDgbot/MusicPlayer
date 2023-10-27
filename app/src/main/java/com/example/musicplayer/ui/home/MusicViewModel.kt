@@ -32,13 +32,14 @@ class MusicViewModel : ViewModel() {
 
                 // 从数据库获取音乐
                 val dbTracks = musicDao.getMusicsByIds(trackIds)
-                Log.d("MusicViewModel", "dbTracks: $dbTracks")
+
                 // 创建映射便于快速查找
                 val dbTrackMap = dbTracks.associateBy { it.id }
 
                 val finalTracks = responseTracks.map { dbTrackMap[it.id] ?: it }
-                Log.d("MusicViewModel", "loadTracks: $finalTracks")
+
                 _tracks.value = finalTracks
+                Log.d("MusicViewModel", "loadTracks: ${finalTracks.size}")
             } catch (e: Exception) {
                 _tracks.value = emptyList()
             } finally {

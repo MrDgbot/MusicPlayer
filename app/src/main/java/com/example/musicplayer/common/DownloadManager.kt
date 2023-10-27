@@ -6,7 +6,6 @@ import android.net.NetworkCapabilities
 import android.os.Build.VERSION.SDK_INT
 import android.os.Build.VERSION_CODES
 import com.example.musicplayer.data.Music
-import java.io.File
 import java.util.concurrent.ConcurrentHashMap
 
 // 下载管理器，用于管理所有的下载任务
@@ -32,10 +31,10 @@ object DownloadManager {
             return
         }
 
-        val downloadDir = File(context.externalCacheDir, "music")
         val musicDao = AppDatabase.getInstance(context).musicDao()
 
-        val task = DownloadTask(music, downloadDir, onProgress, onError, onSuccess, musicDao)
+        val task =
+            DownloadTask(music, FileHelper.getInstance(context).getDir(), onProgress, onError, onSuccess, musicDao)
         tasks[music.url] = task
         task.start()
     }
@@ -58,15 +57,32 @@ object DownloadManager {
         musicDao.getAllMusics().forEach { song ->
             if (song.downloading) {
                 song.downloading = false
-                song.localDownloadSize = 0
                 musicDao.update(song)
             }
             musicDao.update(song)
         }
     }
 
-    // 在DownloadTask类中添加一个检查网络连接状态的方法
+    // 删除整个下载目录
+    suspend fun deleteDownloadDir(context: Context) {
+        val musicDao = AppDatabase.getInstance(context).musicDao()
+        musicDao.getAllMusics().forEach { song ->
+            if (song.downloading) {
+                song.downloading = false
+                musicDao.update(song)
+            }
+            musicDao.update(song)
+        }
+        FileHelper.getInstance(context).getDir().deleteRecursively()
+    }
 
+    /**
+     * 检查设备是否连接到网络。
+     *
+     * @param context 应用程序的上下文。通常传递`getApplicationContext()`或`this`（对于Activity或Fragment的实例）。
+     * @return 如果设备连接到网络（移动数据或Wi-Fi），则返回true；否则返回false。
+     *
+     */
     private fun isNetworkConnected(context: Context): Boolean {
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
@@ -79,5 +95,6 @@ object DownloadManager {
             networkInfo != null && networkInfo.isConnected
         }
     }
+
 
 }

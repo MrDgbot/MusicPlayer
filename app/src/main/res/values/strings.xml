@@ -6,4 +6,5 @@
     <string name="music_player">Music Player</string>
     <string name="no_music">下拉刷新\n</string>
     <string name="refresh_tips">下拉刷新</string>
+    <string name="zero_time">00:00</string>
 </resources>
