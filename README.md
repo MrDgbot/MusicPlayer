@@ -1,0 +1,30 @@
+# 🎧 MusicPlayer
+> 📝 一个基于`Kotlin`的音乐播放器
+
+## 🎵 项目介绍
+
+---
+
+### 🎤 主要功能
+
+- **📡 音乐获取**: 从指定的远程配置文件获取音乐信息列表并在界面上展示。
+- **⬇️ 音乐下载**: 点击音乐列表上的下载按钮可以进行下载并保存音乐。
+- **🎵 音乐播放**: 下载完成后，点击音乐列表上的播放按钮可以跳转到播放页面进行播放。
+- **🎛️ 播放控制**: 
+  - ▶️ 播放
+  - ⏸️ 暂停
+  - 🔄 展示播放进度
+  - 📊 拖动播放进度
+- **📜 设计说明**: 播放器仿写QQ音乐的播放页面，仅学习使用，不作商业用途。
+
+---
+
+## 🖼️ 项目截图
+
+<center class="half">
+<img width="50%" height="30%" src="https://github.com/MrDgbot/MusicPlayer/assets/60038945/fb033971-b782-4796-be22-b36090db30a7"/><img width="50%" height="30%" src="https://github.com/MrDgbot/MusicPlayer/assets/60038945/407ee68c-04e9-461d-92b5-c5dc30c338f3"/>
+</center>
+
+## 📺 项目视频
+
+🔗 [点击观看](https://github.com/MrDgbot/MusicPlayer/assets/60038945/b8ff86f9-a187-4d37-831f-3eb847ef077e)
