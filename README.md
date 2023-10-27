@@ -21,10 +21,10 @@
 
 ## 🖼️ 项目截图
 
-<center class="half">
-<img width="50%" height="30%" src="https://github.com/MrDgbot/MusicPlayer/assets/60038945/fb033971-b782-4796-be22-b36090db30a7"/><img width="50%" height="30%" src="https://github.com/MrDgbot/MusicPlayer/assets/60038945/407ee68c-04e9-461d-92b5-c5dc30c338f3"/>
-</center>
+<div class="half" style="text-align: center;">
+<img width="50%" height="30%" src="https://raw.githubusercontent.com/MrDgbot/MusicPlayer/main/screenshot/home.jpg"/><img width="50%" height="30%" src="https://raw.githubusercontent.com/MrDgbot/MusicPlayer/main/screenshot/player.jpg"/>
+</div>
 
 ## 📺 项目视频
 
-🔗 [点击观看](https://github.com/MrDgbot/MusicPlayer/assets/60038945/b8ff86f9-a187-4d37-831f-3eb847ef077e)
+🔗 [点击观看](https://raw.githubusercontent.com/MrDgbot/MusicPlayer/main/video/demo.mp4)
