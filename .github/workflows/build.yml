@@ -1,4 +1,4 @@
-name: Release APK
+name: Release Debug APK
 
 on:
   workflow_dispatch:
@@ -22,26 +22,24 @@ jobs:
           distribution: 'adopt'
           java-version: '17'
 
-      - name: Build release APK
+      - name: Build debug APK
         run: ./gradlew assembleDebug
 
       - name: Create Release
         id: create_release
-        uses: gh-actions/create-release@master
+        run: |
+          gh release create ${{ github.event.inputs.tag }} \
+            --title "Release ${{ github.event.inputs.tag }}" \
+            --notes "Release notes for ${{ github.event.inputs.tag }}"
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.event.inputs.tag }}
-          release_name: Release ${{ github.event.inputs.tag }}
-          draft: false
-          prerelease: false
-          
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Upload APK to Release
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          upload_url: ${{ steps.create_release.outputs.upload_url }} 
           asset_path: app/build/outputs/apk/debug/app-debug.apk
-          asset_name: app-debug-${{ github.event.inputs.tag }}.apk
+          asset_name: app-debug-v${{ github.event.inputs.tag }}.apk
           asset_content_type: application/vnd.android.package-archive
